@@ -78,7 +78,7 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 limit = 300
-tweets = tweepy.Cursor(api.search_tweets, q=keyword, count=10, tweet_mode='extended').items(limit)
+tweets = tweepy.Cursor(api.search_tweets, q=keyword, count=10, tweet_mode='extended', lang="fr").items(limit)
 if auth.access_token is None:
     print("Authentication failed.")
 else:
