@@ -4,7 +4,7 @@
 # srcLanguage="fr"
 # targetLanguage = "en"
 # parent = translate_client.location_path("####id_google_cloud", "global")
-
+import tweepy
 from tweepy import *
 import pandas as pd
 import csv
