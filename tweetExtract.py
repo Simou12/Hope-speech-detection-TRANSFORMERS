@@ -60,16 +60,21 @@ def get_bearer_header():
 
 
 def getConversationId(id):
-    uri = 'https://api.twitter.com/2/tweets?'
-
+    url = f'https://api.twitter.com/2/tweets/{id}'
+    headers = {
+        'Authorization': 'Bearer YOUR_BEARER_TOKEN',
+        'Content-Type': 'application/json'
+    }
     params = {
-        'ids': id,
         'tweet.fields': 'conversation_id'
     }
-
-    bearer_header = get_bearer_header()
-    resp = requests.get(uri, headers=bearer_header, params=params)
-    return resp.json()['data'][0]['conversation_id']
+    response = requests.get(url, headers=headers, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        conversation_id = data['data']['conversation_id']
+        return conversation_id
+    else:
+        return None
 
 
 # Authenticate with Twitter API
