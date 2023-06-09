@@ -168,11 +168,12 @@ for keyword in keywords:
 
             tweets_df = pd.DataFrame()  # Dataframe pour stocker les tweets
             conversations_df = pd.DataFrame(columns=["tweet_id", "tweet"])
+            # get the tweet conversation
             conversation = getConversation(tweet.id)
             if conversation is not None and len(conversation) > 0:
-                # Parcourir les tweets de la conversation
+                # Browsing through the tweets of the conversation
                 for conv_tweet in conversation:
-                    # Ajouter le tweet à la ligne du dataframe de la conversation
+                    # add the tweet to the conversation tweet
                     conversation_data = {
                         "conversation_id": convId,
                         "tweet_id": conv_tweet.id,
@@ -185,6 +186,7 @@ for keyword in keywords:
             time.sleep(3)
         # save the tweets in a csv file
         tweetsDf.to_csv("tweetsExtracted" + str(i) + ".csv", index=True)
+        print(i)
         tweetsDf.astype(str)
 
 
