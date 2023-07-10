@@ -19,6 +19,14 @@ import base64
 import requests
 import warnings
 
+
+!pip install snscrape
+!pip install langdetect
+import snscrape.modules.twitter as sntwitter
+import pandas as pd
+import warnings
+from langdetect import detect
+
 warnings.filterwarnings("ignore")
 
 # Twitter API credentials
@@ -189,9 +197,43 @@ for keyword in keywords:
         print(i)
         tweetsDf.astype(str)
 
+warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore", category=UserWarning, module="snscrape.modules.twitter")
+tweets = []
+limit = 300
+query = " choose my keyword"
 
+for tweet in sntwitter.TwitterSearchScraper(query).get_items():
+    warnings.filterwarnings("ignore")
+    # print(vars(tweet))
+    # break
+    if detect(tweet.content) == 'fr':
+      if len(tweets) == limit:
+          break
+      else:
+          tweets.append([
+              tweet.id,
+              tweet.conversationId,
+              tweet.date.strftime('%Y-%m-%d %H:%M:%S'),
+              tweet.date.strftime('%Y-%m-%d'),
+              tweet.date.strftime('%H:%M:%S'),
+              tweet.date.strftime('%Z'),
+              tweet.user.id,
+              tweet.user.username,
+              tweet.place,
+              tweet.content,
+              "",
+              "",
+              tweet.lang,
+              tweet.source,
+              tweet.replyCount,
+              tweet.retweetCount,
+              tweet.likeCount,
+             ])
 
-
+d = pd.DataFrame(tweets, columns=['id','conversation_id','created_at','date', 'time','timezone','user_id','username','place','tweet','labelAsma','labelGPT','language','source','reply_count','retweet','like_count'])
+#save to csv
+#d.to_csv('tweetHash1.csv')
 
 
 
